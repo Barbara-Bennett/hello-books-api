@@ -11,6 +11,7 @@ def validate_book(book_id):
        book_id = int(book_id)
     except:
        abort(make_response({"message":f"book {book_id} invalid"}, 400))
+    
     book = Book.query.get(book_id)
 
     if not book:
@@ -31,8 +32,14 @@ def create_book():
 
 @books_bp.route("", methods=["GET"])
 def read_all_books():
+    
+    title_query = request.args.get("title")
+    if title_query:
+        books = Book.query.filter_by(title=title_query)
+    else:
+        books = Book.query.all()
+
     books_response = []
-    books = Book.query.all()
     for book in books:
         books_response.append(
             {
@@ -46,12 +53,11 @@ def read_all_books():
 @books_bp.route("/<book_id>", methods=["GET"])
 def read_one_book(book_id):
     book = validate_book(book_id)
-
     return {
-          "id": book.id,
-          "title": book.title,
-          "description": book.description,
-    }
+            "id": book.id,
+            "title": book.title,
+            "description": book.description
+        }
 
 @books_bp.route("/<book_id>", methods=["PUT"])
 def update_book(book_id):
