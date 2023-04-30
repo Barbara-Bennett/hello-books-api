@@ -80,3 +80,4 @@ def delete_book(book_id):
     db.session.commit()
 
     return make_response(f"Book #{book.id} successfully deleted")
+
