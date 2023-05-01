@@ -1,4 +1,3 @@
-from os import abort
 from app import db
 from app.models.book import Book
 from flask import Blueprint, jsonify, make_response, request, abort
@@ -23,7 +22,7 @@ def validate_book(book_id):
 @books_bp.route("", methods=["POST"])
 def create_book():
     request_body = request.get_json()
-    new_book = Book(title=request_body["title"], description=request_body["description"])
+    new_book = Book.from_dict(request_body)
 
     db.session.add(new_book)
     db.session.commit()
