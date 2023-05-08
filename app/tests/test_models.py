@@ -1,4 +1,5 @@
 from app.models.book import Book
+from app.models.author import Author
 import pytest
 
 def test_to_dict_no_missing_data():
@@ -107,4 +108,3 @@ def test_from_dict_with_extra_keys():
     # Assert
     assert new_book.title == "New Book"
     assert new_book.description == "The Best!"
-    
